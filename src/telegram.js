@@ -17,7 +17,7 @@ const URL = require('url');
 const fs = require('fs');
 const pump = require('pump');
 const deprecate = require('depd')('node-telegram-bot-api');
-let Promise = require('bluebird');
+global.Promise = require('bluebird');
 
 const _messageTypes = [
   'text',
@@ -59,8 +59,15 @@ if (!process.env.NTBA_FIX_319) {
       'See https://github.com/yagop/node-telegram-bot-api/issues/319.';
     deprecate(msg);
     Promise.config({
+      // Enable warnings                                                                                                     
+      warnings: true,
+      // Enable long stack traces                                                                                            
+      longStackTraces: true,
+      // Enable cancellation                                                                                                 
       cancellation: true,
-    });
+      // Enable monitoring                                                                                                   
+      monitoring: true
+    })
   } catch (ex) {
     /* eslint-disable no-console */
     const msg =
